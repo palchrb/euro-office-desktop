@@ -17,7 +17,7 @@ services:
       - '9200:9200'
     volumes:
       - opencloud-config:/etc/opencloud
-      - ./dist:/web/apps/onlyoffice-desktop
+      - ./dist:/web/apps/euro-office-desktop
 
 volumes:
   opencloud-config:

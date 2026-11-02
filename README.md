@@ -1,23 +1,33 @@
-# onlyoffice-desktop
+# euro-office-desktop
 
-Announces the logged-in OpenCloud portal to the ONLYOFFICE desktop app, so the
+An OpenCloud web extension that announces the logged-in portal to the
+[Euro-Office desktop app](https://github.com/Euro-Office/desktop-apps), so the
 portal shows up (and persists) in the app's **Clouds** list.
 
 The desktop app only lists a connected cloud when the portal page itself calls
-`AscDesktopEditor.execCommand('portal:login', ...)`. On Nextcloud and ownCloud
-this is done by the ONLYOFFICE connector app. OpenCloud needs no connector for
-the editors themselves — WOPI and the built-in collaboration service cover that
-natively — so this small extension provides just the missing announcement.
+`AscDesktopEditor.execCommand('portal:login', ...)`. On Nextcloud this is done
+by a connector app. OpenCloud needs no connector for the editors themselves —
+WOPI and the built-in collaboration service cover that natively — so this small
+extension provides just the missing announcement.
 
 Outside the desktop app (no `window.AscDesktopEditor` present) the extension
 does nothing.
 
-This extension was developed for the **Euro-Office desktop app**, which is based
-on the ONLYOFFICE desktop editors. The `opencloud` provider it depends on (see
-[Requirements](#requirements)) is currently being merged into Euro-Office's
-main branch. Since the desktop apps share the same `portal:login` mechanism, it
-also works with the upstream ONLYOFFICE desktop app once that app knows the
-`opencloud` provider.
+> **ONLYOFFICE desktop app:** Euro-Office is based on the ONLYOFFICE desktop
+> editors and shares the same `portal:login` mechanism, so this extension
+> should work there as well. The ONLYOFFICE app will, however, first need the
+> `opencloud` provider added in the same way Euro-Office did (proposed in
+> [ONLYOFFICE/DesktopEditors#2047](https://github.com/ONLYOFFICE/DesktopEditors/issues/2047)).
+> Until then it is untested and unsupported there.
+
+## Status
+
+The desktop-side half of the integration — the `opencloud` connection provider
+— has been merged into Euro-Office in
+[Euro-Office/desktop-apps#42](https://github.com/Euro-Office/desktop-apps/pull/42)
+(merged 2026-11-02). OpenCloud is therefore supported at the Euro-Office level:
+builds from `main` onward list OpenCloud in the connect dialog and accept the
+announcement from this extension.
 
 ## How it works
 
@@ -36,25 +46,22 @@ AscDesktopEditor.execCommand(
 )
 ```
 
-The payload deliberately mirrors the Nextcloud connector's payload — in
-particular it carries no `email` field, since the desktop app's start page
-compares that field against its stored portal entry and silently drops the
-event on mismatch.
+The payload deliberately carries no `email` field: the desktop app's start
+page compares that field against its stored portal entry and silently drops
+the event on mismatch.
 
 ## Requirements
 
-This extension is only half of the integration: **the desktop app must know
-the `opencloud` provider**, i.e. have an `opencloud` entry in its
-`providers/` directory. Without it, the desktop app's start page drops the
-announcement as coming from an unknown provider, and this extension is
-effectively a no-op.
+- An OpenCloud instance where you can install web extensions.
+- A Euro-Office desktop build that includes the `opencloud` provider
+  (`common/loginpage/providers/opencloud/`, added in
+  [#42](https://github.com/Euro-Office/desktop-apps/pull/42)). Without it, the
+  start page drops the announcement as coming from an unknown provider and this
+  extension is a no-op.
 
-No shipped desktop build includes that entry yet. Euro-Office is currently
-merging it into its main branch, and it has also been proposed upstream to
-ONLYOFFICE (ref. [ONLYOFFICE/DesktopEditors#2047](https://github.com/ONLYOFFICE/DesktopEditors/issues/2047)).
-Until a release ships with it, it can be added to an installed app by dropping the
-provider directory into `<install dir>/providers/` — the app enumerates that
-directory at startup, no rebuild needed.
+For an older installed build, the provider can be added by copying that
+directory into `<install dir>/providers/` — the app reads the providers
+directory at startup, so no rebuild is needed.
 
 ## Installation
 
@@ -65,7 +72,7 @@ directory (see the
 ```sh
 pnpm install
 pnpm build
-# copy dist/ to <WEB_ASSET_APPS_PATH>/onlyoffice-desktop
+# copy dist/ to <WEB_ASSET_APPS_PATH>/euro-office-desktop
 ```
 
 ## Development
@@ -76,7 +83,8 @@ pnpm lint
 pnpm check:types
 ```
 
-`docker-compose up -d` starts a local OpenCloud with the built extension mounted.
+`docker-compose up -d` starts a local OpenCloud with the built extension
+mounted.
 
 ## License
 

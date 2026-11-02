@@ -4,5 +4,5 @@
 
 ### ✨ Features
 
-- Initial release: announce the logged-in portal to the ONLYOFFICE desktop app
+- Initial release: announce the logged-in portal to the Euro-Office desktop app
   (`portal:login`), so OpenCloud appears and persists in the app's Clouds list

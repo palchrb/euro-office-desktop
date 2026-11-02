@@ -1,17 +1,16 @@
 import { defineWebApplication, useUserStore } from '@opencloud-eu/web-pkg'
 import { watch } from 'vue'
 
-// The ONLYOFFICE / Euro-Office desktop shell only lists a connected portal in
-// its "Clouds" panel when the portal page itself announces the login via
-// AscDesktopEditor.execCommand('portal:login', ...) — in Nextcloud the
-// ONLYOFFICE connector app does this (src/desktop.js). OpenCloud has no
-// connector, so this extension fills that role. Outside the desktop shell
-// (no window.AscDesktopEditor) it does nothing.
+// The Euro-Office desktop shell only lists a connected portal in its "Clouds"
+// panel when the portal page itself announces the login via
+// AscDesktopEditor.execCommand('portal:login', ...) — on Nextcloud a connector
+// app does this. OpenCloud has no connector, so this extension fills that
+// role. Outside the desktop shell (no window.AscDesktopEditor) it does nothing.
 
 declare global {
   interface Window {
     AscDesktopEditor?: { execCommand: (command: string, arg: string) => void }
-    __ocOnlyofficeDesktopAnnounced?: boolean
+    __ocEuroOfficeDesktopAnnounced?: boolean
   }
 }
 
@@ -21,7 +20,7 @@ export default defineWebApplication({
       const userStore = useUserStore()
 
       const announce = (): boolean => {
-        if (window.__ocOnlyofficeDesktopAnnounced) {
+        if (window.__ocEuroOfficeDesktopAnnounced) {
           return true
         }
         const user = userStore.user
@@ -44,7 +43,7 @@ export default defineWebApplication({
             provider: 'opencloud'
           })
         )
-        window.__ocOnlyofficeDesktopAnnounced = true
+        window.__ocEuroOfficeDesktopAnnounced = true
         return true
       }
 
@@ -64,8 +63,8 @@ export default defineWebApplication({
 
     return {
       appInfo: {
-        id: 'onlyoffice-desktop',
-        name: 'ONLYOFFICE Desktop'
+        id: 'euro-office-desktop',
+        name: 'Euro-Office Desktop'
       }
     }
   }

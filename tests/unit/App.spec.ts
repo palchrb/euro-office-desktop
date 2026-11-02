@@ -13,13 +13,13 @@ import app from '../../src/index'
 
 const setup = () => (app as { setup: () => { appInfo: { id: string } } }).setup()
 
-describe('onlyoffice-desktop', () => {
+describe('euro-office-desktop', () => {
   let execCommand: ReturnType<typeof vi.fn<(command: string, arg: string) => void>>
 
   beforeEach(() => {
     execCommand = vi.fn<(command: string, arg: string) => void>()
     userStore.user = null
-    window.__ocOnlyofficeDesktopAnnounced = undefined
+    window.__ocEuroOfficeDesktopAnnounced = undefined
     window.AscDesktopEditor = { execCommand }
   })
 
@@ -27,7 +27,7 @@ describe('onlyoffice-desktop', () => {
     window.AscDesktopEditor = undefined
     userStore.user = { displayName: 'Alice' } as User
 
-    expect(setup().appInfo.id).toBe('onlyoffice-desktop')
+    expect(setup().appInfo.id).toBe('euro-office-desktop')
     expect(execCommand).not.toHaveBeenCalled()
   })
 

@@ -1,11 +1,11 @@
 {
-  "name": "onlyoffice-desktop",
+  "name": "euro-office-desktop",
   "version": "1.0.0",
-  "description": "Announce the logged-in OpenCloud portal to the ONLYOFFICE desktop app, so it appears in its Clouds list",
+  "description": "Announce the logged-in OpenCloud portal to the Euro-Office desktop app, so it appears in its Clouds list",
   "license": "AGPL-3.0",
   "author": "palchrb",
   "private": true,
-  "homepage": "https://github.com/palchrb/onlyoffice-desktop",
+  "homepage": "https://github.com/palchrb/euro-office-desktop",
   "type": "module",
   "scripts": {
     "build": "pnpm vite build",

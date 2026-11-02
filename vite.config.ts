@@ -1,5 +1,5 @@
 import { defineConfig } from '@opencloud-eu/extension-sdk'
 
 export default defineConfig({
-  name: 'onlyoffice-desktop'
+  name: 'euro-office-desktop'
 })
