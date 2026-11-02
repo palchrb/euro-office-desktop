@@ -1,0 +1,23 @@
+services:
+  opencloud:
+    image: ${OC_IMAGE:-opencloudeu/opencloud-rolling:latest}
+    entrypoint: /bin/sh
+    command: ['-c', 'opencloud init || true && opencloud server']
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    environment:
+      OC_URL: https://host.docker.internal:9200
+      OC_INSECURE: true
+      OC_LOG_LEVEL: error
+      IDM_ADMIN_PASSWORD: admin
+      IDM_CREATE_DEMO_USERS: true
+      PROXY_ENABLE_BASIC_AUTH: true
+      WEB_ASSET_APPS_PATH: /web/apps
+    ports:
+      - '9200:9200'
+    volumes:
+      - opencloud-config:/etc/opencloud
+      - ./dist:/web/apps/onlyoffice-desktop
+
+volumes:
+  opencloud-config:
